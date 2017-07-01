@@ -1,0 +1,3 @@
+rootProject.name = 'OxHexStore'
+
+include ':app'
