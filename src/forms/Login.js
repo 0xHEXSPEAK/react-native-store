@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
 import {reduxForm, Field} from 'redux-form';
 
-import {Form, Container, Button, Item, Input} from 'native-base';
-import {Text} from 'react-native';
+import {Form, Container, Button, Item, Input, ListItem, Icon, InputGroup} from 'native-base';
+import {Text, View} from 'react-native';
+import renderBaseInput from './BaseInput';
 
 const validate = values => {
     const errors = {};
@@ -15,25 +16,22 @@ const validate = values => {
     return errors
 };
 
-class LoginForm extends Component {
-    renderInput = ({ input, label, type, meta: { touched, error, warning } }) => {
-        let hasError= false;
-        if(error !== undefined){
-            hasError= true;
-        }
-        console.log(hasError);
-        return( <Item style= {{ margin: 10 }} error= {hasError}>
-            <Input {...input}/>
-            {hasError ? <Text>{error}</Text> : <Text />}
-        </Item> )
-    };
+const submit = values => {
+    // console.log('submitting form', values)
+}
 
+class LoginForm extends Component {
     render() {
-        const {handleSubmit} = this.props;
+        const {style, handleSubmit} = this.props;
         return (
             <Form form={'test'} {...handleSubmit}>
-                <Field name="name" component={this.renderInput} />
-                <Field name="email" component={this.renderInput} />
+                <View style={style.formGroup}>
+                    <Field name="name" component={props => {return renderBaseInput(props, 'mail')}} />
+                    <Field name="email" component={props => {return renderBaseInput(props, 'mail')}} />
+                </View>
+                <Button full style={style.submitButton} onPress={handleSubmit(submit)}>
+                    <Text style={{color: 'white'}}>Sign in</Text>
+                </Button>
             </Form>
         );
     }
